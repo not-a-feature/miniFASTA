@@ -1,4 +1,3 @@
-import pytest
 from miniFasta import miniFasta as fasta
 from os import path, remove
 
