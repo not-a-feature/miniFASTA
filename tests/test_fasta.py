@@ -81,3 +81,19 @@ def test_print_fasta(capsys):
 
 def test_len_fasta():
     assert len(fasta.fasta_object("test", "abc")) == 3
+
+
+def test_str_fasta():
+    assert str(fasta.fasta_object("test", "abc")) == ">test\nabc"
+
+
+def test_eq_fasta():
+    foa = fasta.fasta_object("test", "abc")
+    fob = fasta.fasta_object("different header", "abc")
+    foc = fasta.fasta_object("different body", "zzz")
+
+    assert foa == foa
+    assert fob == foa
+    assert foa == fob
+    assert not foa == foc
+    assert not foc == foa
