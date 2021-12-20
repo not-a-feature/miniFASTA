@@ -115,16 +115,23 @@ class fasta_object():
         self.body = reverse_comp(self.body, d)
 
 
-def read_fasta(fileName: str, upper: bool = True):
+def read_fasta(file_path: str, upper: bool = True):
     """
     Reads a fasta-style file and returns a list of fasta_objects.
+    Attention: Encoding characters (backslash) in the fasta file will work.
+    Input:
+        file_path: str, path to folder / file
+        upper: bool, cast sequence to upper-case letters.
+
+    Returns:
+        fasta_objects: list of fasta_object
     """
 
-    if not path.isfile(fileName):
+    if not path.isfile(file_path):
         raise FileNotFoundError("Fasta File not found!")
 
     fasta_objects = []
-    with open(fileName, 'r') as f:
+    with open(file_path, 'r') as f:
         head = ""
         body = ""
         newObject = True
