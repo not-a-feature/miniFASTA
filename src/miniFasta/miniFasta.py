@@ -4,7 +4,7 @@ A simple fasta object, reader, writer and translator
 """
 
 from os import path
-
+from typing import List
 # Usual translation dictionary according to
 # https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi#SG1
 translation_dict = {"TTT": "F", "TTC": "F",
@@ -115,7 +115,7 @@ class fasta_object():
         self.body = reverse_comp(self.body, d)
 
 
-def read_fasta(file_path: str, upper: bool = True):
+def read_fasta(file_path: str, upper: bool = True) -> List[fasta_object]:
     """
     Reads a fasta-style file and returns a list of fasta_objects.
     Attention: Encoding characters (backslash) in the fasta file will work.
@@ -159,7 +159,7 @@ def read_fasta(file_path: str, upper: bool = True):
     return fasta_objects
 
 
-def write_fasta(fasta_pairs, file_path: str, mode="w"):
+def write_fasta(fasta_pairs, file_path: str, mode="w") -> None:
     """
     Writes a list of fasta_objects or a single one to a file.
     Takes fasta_objects as input.
@@ -178,7 +178,7 @@ def write_fasta(fasta_pairs, file_path: str, mode="w"):
     return None
 
 
-def print_fasta(fasta):
+def print_fasta(fasta) -> None:
     """
     Prints a single or a list of fasta_objects.
     """
@@ -211,7 +211,7 @@ def __maybeFind(key, d, alt):
         return alt
 
 
-def translate_seq(seq: str, d=translation_dict):
+def translate_seq(seq: str, d=translation_dict) -> str:
     """
     Translates a DNA sequence to a AA sequence.
     Reading frame starts at position 0, tailing bases will be ignored.
@@ -235,7 +235,7 @@ def translate_seq(seq: str, d=translation_dict):
     return translated
 
 
-def reverse_comp(seq: str, d=complement_dict):
+def reverse_comp(seq: str, d=complement_dict) -> str:
     """
     Reverses complement of sequence.
     If no complement was found, the nucleotides remains unchanged.
@@ -248,5 +248,4 @@ def reverse_comp(seq: str, d=complement_dict):
     if seq == "":
         return ""
     rev = reversed(seq)
-    rev = "".join(map(lambda b: __maybeFind(b, complement_dict, b), rev))  # type:ignore
-    return rev
+    return "".join(map(lambda b: __maybeFind(b, complement_dict, b), rev))  # type:ignore
