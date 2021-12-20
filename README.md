@@ -4,6 +4,11 @@
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
 
 ## Installation
+Using pip  / pip3:
+```bash
+pip install miniFasta
+```
+Or by source:
 ```bash
 git clone git@github.com:not-a-feature/miniFASTA.git
 cd miniFASTA
