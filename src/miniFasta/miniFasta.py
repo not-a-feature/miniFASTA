@@ -108,7 +108,7 @@ class fasta_object():
     def toRevComp(self,  d=complement_dict):
         """
         Reverses complement of sequence.
-        If no complement was found, the nucleotides remains unchanged.
+        If no complement was found, the nucleotide remains unchanged.
         Input:
             d: dict, dictionary of complement.
         """
