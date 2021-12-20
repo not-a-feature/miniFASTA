@@ -159,7 +159,7 @@ def read_fasta(file_path: str, upper: bool = True):
     return fasta_objects
 
 
-def write_fasta(fasta_pairs, fileName: str, mode="w"):
+def write_fasta(fasta_pairs, file_path: str, mode="w"):
     """
     Writes a list of fasta_objects or a single one to a file.
     Takes fasta_objects as input.
@@ -168,14 +168,14 @@ def write_fasta(fasta_pairs, fileName: str, mode="w"):
     if not isinstance(fasta_pairs, list):
         fasta_pairs = [fasta_pairs]
 
-    with open(fileName, mode) as f:
+    with open(file_path, mode) as f:
         for fo in fasta_pairs:
             f.write(f"{fo.head}\n")
             body_len = len(fo.body)
             # Write only 70 chars per line
             for i in range(0, body_len, 70):
                 f.write(f"{fo.body[i:i+70]}\n")
-    return True
+    return None
 
 
 def print_fasta(fasta):
@@ -202,6 +202,8 @@ def __maybeFind(key, d, alt):
         key: hashable, key to find.
         d: dict, dictionary to search.
         alt: alternative if key not found.
+    Returns:
+        v: found value or alt
     """
     try:
         return d[key]
