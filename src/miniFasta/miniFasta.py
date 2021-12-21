@@ -1,6 +1,11 @@
 """
-@author: Jules Kreuer
-A simple fasta object, reader, writer and translator
+miniFASTA: a simple fasta object, reader, writer and translator
+
+See: https://github.com/not-a-feature/miniFASTA
+Or:  https://pypi.org/project/miniFasta/
+
+@author: Jules Kreuer / not_a_feature
+License: GPL-3.0
 """
 
 from os import path

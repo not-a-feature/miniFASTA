@@ -49,13 +49,13 @@ len(fo) # will return 18, the length of the body
 ```
 **==**
 ```python 
-fo == fo # True
+print(fo == fo) # True
 
 fo_b = fasta.fasta_object(">Same Body", "CGGCCTTCTATCTTCTTC")
-fo == fb # True
+print(fo == fo_b) # True
 
 fo_c = fasta.fasta_object(">Different Body", "ZZZZAGCTAG")
-fo == fc # False
+print(fo == fo_c) # False
 ```
 **toAmino(translation_dict)**
 
@@ -95,13 +95,14 @@ fos = fasta.read_fasta("dolphin.fasta") # List of fasta entries
 fasta.write_fasta(fos, "new.fasta")
 ```
 ## Sequence translation
-`translate_seq()` translates sequence.
+`translate_seq()` translates a sequence starting at position 0.
 Unless translation_dict is provided, the standart bacterial code is used. If the codon was not found, it will be replaced by an `~`. Tailing bases that do not fit into a codon will be ignored.
 
 ```python 
 fasta.translate_seq("CGGCCTTCTATCTTCTTC") # Will return RPSIFF
-d = {"CCG": "Z", "CTT": "A" ...}
-fasta.translate_seq("CGGCCTTCTATCTTCTTC", d) # Will return ZA...
+
+d = {"CGG": "Z", "CTT": "A"}
+fasta.translate_seq("CGGCTT", d) # Will return ZA.
 ```
 
 ## Reverse Complement
@@ -109,6 +110,7 @@ fasta.translate_seq("CGGCCTTCTATCTTCTTC", d) # Will return ZA...
 Unless complement_dict is provided, the standart complement is used. If no complement was found, the nucleotide remains unchanged.
 ```python 
 fasta.reverse_comp("CGGCCTTCTATCTTCTTC") # Will return GAAGAAGATAGAAGGCCG
-d = {"C": "Z", "T": "Y" ...}
-fasta.reverse_comp("CGGCCTTCTATCTTCTTC", d) # Will return ZY...
+
+d = {"C": "Z", "T": "Y"}
+fasta.reverse_comp("TC", d) # Will return ZY
 ```
