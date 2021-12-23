@@ -27,7 +27,7 @@ def test_write_read_fasta():
 def test_read_strange_header():
     file_path = path.join(path.dirname(__file__), "test_data/test1.fasta")
     fos_heads = [fo.head for fo in fasta.read_fasta(file_path)]
-    assert fos_heads == [""">FirstTestFASTA !"$%_-&/()=?'#'"",. :""", ">", "> Third > "]
+    assert fos_heads == [""">FirstTestFASTA !"$%_-&/()=?'#'"",. :""", ">", "> Third >"]
 
 
 def test_read_long_body():
