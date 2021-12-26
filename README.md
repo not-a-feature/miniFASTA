@@ -129,8 +129,8 @@ TLDR:
 | ✓ Patent use     | State changes                |             |
 | ✓ Private use    |                              |             |
 ```
-Go to https://github.com/not-a-feature/miniFASTA/blob/main/LICENSE to see the full version.
+Go to [LICENSE.md](https://github.com/not-a-feature/miniFASTA/blob/main/LICENSE) to see the full version.
 
 ## Dependencies
-In addition to packages included in python 3, this piece of software uses 3rd-party software packages for development purposes that are not required in the published version.
-Go to https://github.com/not-a-feature/miniFASTA/blob/main/DEPENDENCIES.md to see all dependencies and licenses.
+In addition to packages included in Python 3, this piece of software uses 3rd-party software packages for development purposes that are not required in the published version.
+Go to [DEPENDENCIES.md](https://github.com/not-a-feature/miniFASTA/blob/main/DEPENDENCIES.md) to see all dependencies and licenses.

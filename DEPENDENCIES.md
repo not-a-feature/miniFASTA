@@ -78,8 +78,3 @@ MIT
 **Package Download URL**: https://files.pythonhosted.org/packages/9e/1d/62707decc7690dafc1e1ffff6a02ab41ee3806a21ac2e1ca28082c5aed22/tox-4.0.0a9-py3-none-any.whl
 
 **Dependency Paths**:  tox 
-
-[FOSSA]: # (Do not touch the comments below)
-
-[FOSSA]: # (==depsig=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855==)
-
