@@ -27,7 +27,7 @@ def test_write_read_fasta():
 def test_read_strange_header():
     file_path = path.join(path.dirname(__file__), "test_data/test1.fasta")
     fos_heads = [fo.head for fo in fasta.read_fasta(file_path)]
-    assert fos_heads == [""">FirstTestFASTA !"$%_-&/()=?'#'"",. :""", ">Second Reguar", ">"]
+    assert fos_heads == [""">FirstTestFASTA !"$%_-&/()=?'#'"",. :""", ">", "> Third >"]
 
 
 def test_read_long_body():
@@ -46,6 +46,16 @@ def test_read_long_body():
                  "TCTGAACCACCCCTTCAAGAGTCGCTAGGAAGCTCTTGGTCAATAGGGATATTGTGTTGGGAGCGCGGTCCCCCTACA",
                  "GTCTGAACCACCCCTTCAAGAGTCGCTAGGAAGCTCTTGGTCAA"])
     assert fasta.read_fasta(file_path)[0].body == b
+
+
+def test_read_empty_lines():
+    file_path = path.join(path.dirname(__file__), "test_data/test3.fasta")
+    b0 = "IVPRFRKIDPRFSIDMMRLVGSFLKDREAEIIDGYGAQRSLNSVESADDTTRHFPSTVGVALGNAAIKELHRDENFDNCL"
+    b1 = "MLPTRLANLGLESADHYPNPIQLNADDWDIPFEFELTHQVPTSVAVQYGSLSRAAATLERFVGS"
+    fos = fasta.read_fasta(file_path)
+
+    assert fos[0].body == b0
+    assert fos[1].body == b1
 
 
 def test_translate_seq():
@@ -69,7 +79,7 @@ def test_reverse_comp_toRevComp():
     assert fo.body == "GAAGAAGATAGAAGGCCG"
 
 
-def test_print_fasta(capsys):
+def test_print_fasta_by_func(capsys):
     file_path = path.join(path.dirname(__file__), "test_data/test0.fasta")
 
     assert fasta.print_fasta(fasta.read_fasta(file_path)) is None

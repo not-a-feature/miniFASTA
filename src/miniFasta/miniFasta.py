@@ -192,11 +192,7 @@ def print_fasta(fasta) -> None:
         fasta = [fasta]
 
     for fo in fasta:
-        print(fo.head)
-        body_len = len(fo.body)
-        # Print only 70 chars per line
-        for i in range(0, body_len, 70):
-            print(fo.body[i:i+70])
+        print(fo)
     return None
 
 
