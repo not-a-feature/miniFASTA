@@ -3,6 +3,7 @@
 
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
 ![Download Badge](https://img.shields.io/pypi/dm/miniFASTA.svg)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnot-a-feature%2FminiFASTA.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnot-a-feature%2FminiFASTA?ref=badge_shield)
 ## Installation
 Using pip  / pip3:
 ```bash
@@ -114,3 +115,6 @@ fasta.reverse_comp("CGGCCTTCTATCTTCTTC") # Will return GAAGAAGATAGAAGGCCG
 d = {"C": "Z", "T": "Y"}
 fasta.reverse_comp("TC", d) # Will return ZY
 ```
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnot-a-feature%2FminiFASTA.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnot-a-feature%2FminiFASTA?ref=badge_large)
