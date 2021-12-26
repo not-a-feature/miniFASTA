@@ -120,7 +120,7 @@ class fasta_object():
         self.body = reverse_comp(self.body, d)
 
 
-def read_fasta(file_path: str, upper: bool = True) -> List[fasta_object]:
+def read(file_path: str, upper: bool = True) -> List[fasta_object]:
     """
     Reads a fasta-style file and returns a list of fasta_objects.
     Attention: Encoding characters (backslash) in the fasta file will work.
@@ -164,7 +164,7 @@ def read_fasta(file_path: str, upper: bool = True) -> List[fasta_object]:
     return fasta_objects
 
 
-def write_fasta(fasta_pairs, file_path: str, mode="w") -> None:
+def write(fasta_pairs, file_path: str, mode="w") -> None:
     """
     Writes a list of fasta_objects or a single one to a file.
     Takes fasta_objects as input.

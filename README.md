@@ -19,8 +19,11 @@ pip3 install .
 miniFASTA offers easy to use functions for fasta handling.
 The five main parts are:
 - fasta_object()
-- read_fasta()
-- write_fasta()
+    - toAmino()
+    - roRevComp()
+    - len() / str() / eq()
+- read()
+- write()
 - translate_seq()
 - reverse_comp()
 
@@ -29,35 +32,31 @@ The five main parts are:
 The core component of miniFASTA is the ```fasta_object()```. This object represents an entry in a FASTA file and consists of a head and body.
 
 ```python 
-from miniFasta import miniFasta as fasta
-fo = fasta.fasta_object(">Atlantic dolphin", "CGGCCTTCTATCTTCTTC")
+import miniFasta as mf
+fo = mf.fasta_object(">Atlantic dolphin", "CGGCCTTCTATCTTCTTC")
 print(fo.head) # >Atlantic dolphin
 print(fo.body) # CGGCCTTCTATCTTCTTC
-```
 
 ### Following functions are defined on a fasta_object():
 
-**str()**
-```python 
 str(fo) # will return:
 # >Atlantic dolphin
 # CGGCCTTCTATCTTCTTC
-```
-**len()**
-```python 
+
+# Body length
 len(fo) # will return 18, the length of the body
-```
-**==**
-```python 
+
+# Equality 
 print(fo == fo) # True
 
-fo_b = fasta.fasta_object(">Same Body", "CGGCCTTCTATCTTCTTC")
+fo_b = mf.fasta_object(">Same Body", "CGGCCTTCTATCTTCTTC")
 print(fo == fo_b) # True
 
-fo_c = fasta.fasta_object(">Different Body", "ZZZZAGCTAG")
+fo_c = mf.fasta_object(">Different Body", "ZZZZAGCTAG")
 print(fo == fo_c) # False
 ```
-**toAmino(translation_dict)**
+
+**fasta_object(...).toAmino(translation_dict)**
 
 Translates the body to an amino-acid sequence. See `tranlate_seq()` for more details.
 ```python 
@@ -67,7 +66,7 @@ d = {"CCG": "Z", "CTT": "A" ...}
 fo.toAmino(d) 
 print(fo.body) # Will return ZA...
 ```
-**toRevComp(complement_dict)**
+**fasta_object(...).toRevComp(complement_dict)**
 
 Converts the body to its reverse comlement. See `reverse_comp()` for more details.
 ```python 
@@ -75,44 +74,44 @@ fo.toRevComp()
 print(fo.body) # Will return GAAGAAGATAGAAGGCCG
 ```
 ## Reading FASTA files
-`read_fasta()` is a basic fasta reader.
+`read()` is a basic fasta reader.
 It reads a fasta-style file and returns a list of fasta_objects.
-The entries are usually casted to upper case letters. Set `read_fasta("path.fasta", upper=False)` to disable casting.
+The entries are usually casted to upper case letters. Set `read("path.fasta", upper=False)` to disable casting.
 
 ```python
-fos = fasta.read_fasta("dolphin.fasta") # List of fasta entries
-fos = fasta.read_fasta("cat.fasta", upper=False)
+fos = mf.read("dolphin.fasta") # List of fasta entries
+fos = mf.read("cat.fasta", upper=False)
 ```
 
 ## Writing FASTA files
-`write_fasta()` is a basic fasta reader.
+`write()` is a basic fasta reader.
 It takes a single or a list of fasta_objects and writes it to the given path. 
 
-The file is usually overwritten. Set `write_fasta(fo, "path.fasta", mode="a")` to append file.
+The file is usually overwritten. Set `write(fo, "path.fasta", mode="a")` to append file.
 
 ```python
-fos = fasta.read_fasta("dolphin.fasta") # List of fasta entries
-fasta.write_fasta(fos, "new.fasta")
+fos = mf.read("dolphin.fasta") # List of fasta entries
+mf.write(fos, "new.fasta")
 ```
 ## Sequence translation
 `translate_seq()` translates a sequence starting at position 0.
 Unless translation_dict is provided, the standart bacterial code is used. If the codon was not found, it will be replaced by an `~`. Tailing bases that do not fit into a codon will be ignored.
 
 ```python 
-fasta.translate_seq("CGGCCTTCTATCTTCTTC") # Will return RPSIFF
+mf.translate_seq("CGGCCTTCTATCTTCTTC") # Will return RPSIFF
 
 d = {"CGG": "Z", "CTT": "A"}
-fasta.translate_seq("CGGCTT", d) # Will return ZA.
+mf.translate_seq("CGGCTT", d) # Will return ZA.
 ```
 
 ## Reverse Complement
 `reverse_comp()` converts a sequence to its reverse comlement.
 Unless complement_dict is provided, the standart complement is used. If no complement was found, the nucleotide remains unchanged.
 ```python 
-fasta.reverse_comp("CGGCCTTCTATCTTCTTC") # Will return GAAGAAGATAGAAGGCCG
+mf.reverse_comp("CGGCCTTCTATCTTCTTC") # Will return GAAGAAGATAGAAGGCCG
 
 d = {"C": "Z", "T": "Y"}
-fasta.reverse_comp("TC", d) # Will return ZY
+mf.reverse_comp("TC", d) # Will return ZY
 ```
 
 ## License
