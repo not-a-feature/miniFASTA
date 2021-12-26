@@ -114,3 +114,23 @@ fasta.reverse_comp("CGGCCTTCTATCTTCTTC") # Will return GAAGAAGATAGAAGGCCG
 d = {"C": "Z", "T": "Y"}
 fasta.reverse_comp("TC", d) # Will return ZY
 ```
+
+## License
+```
+Copyright (C) 2021 by Jules Kreuer - @not_a_feature
+This piece of software is published unter the GNU General Public License v3.0
+TLDR:
+
+| Permissions      | Conditions                   | Limitations |
+| ---------------- | ---------------------------- | ----------- |
+| ✓ Commercial use | Disclose source              | ✕ Liability |
+| ✓ Distribution   | License and copyright notice | ✕ Warranty  |
+| ✓ Modification   | Same license                 |             |
+| ✓ Patent use     | State changes                |             |
+| ✓ Private use    |                              |             |
+```
+Go to https://github.com/not-a-feature/miniFASTA/blob/main/LICENSE to see the full version.
+
+## Dependencies
+In addition to packages included in python 3, this piece of software uses 3rd-party software packages for development purposes that are not required in the published version.
+Go to https://github.com/not-a-feature/miniFASTA/blob/main/DEPENDENCIES.md to see all dependencies and licenses.
