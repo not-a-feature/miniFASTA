@@ -1,4 +1,4 @@
-# miniFASTA
+![miniFASTA](miniFASTA.png)
  An easy FASTA object handler, reader, writer and translator for small to medium size projects without dependencies.
 
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
@@ -12,7 +12,7 @@ Or by source:
 ```bash
 git clone git@github.com:not-a-feature/miniFASTA.git
 cd miniFASTA
-pip3 install .
+pip install .
 ```
 
 ## How to use
