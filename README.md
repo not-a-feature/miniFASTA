@@ -74,13 +74,15 @@ fo.toRevComp()
 print(fo.body) # Will return GAAGAAGATAGAAGGCCG
 ```
 ## Reading FASTA files
-`read()` is a basic fasta reader.
-It reads a fasta-style file and returns a list of fasta_objects.
+`read()` is a fasta reader which is able to handle compressed and non-compressed files.
+Following compressions are supported: zip, tar, tar.gz, gz. If multiple files are stored inside an archive, all files are read. 
+This function returns a list of fasta_objects. 
 The entries are usually casted to upper case letters. Set `read("path.fasta", upper=False)` to disable casting.
 
 ```python
-fos = mf.read("dolphin.fasta") # List of fasta entries
-fos = mf.read("cat.fasta", upper=False)
+fos = mf.read("dolphin.fasta") # List of fasta entries.
+fos = mf.read("mouse.fasta", upper=False) # The entries won't be casted to upper case.
+fos = mf.read("reads.tar.gz") # Is able to handle compressed files.
 ```
 
 ## Writing FASTA files
