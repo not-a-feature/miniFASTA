@@ -1,5 +1,6 @@
-![miniFASTA](miniFASTA.png)
- An easy FASTA object handler, reader, writer and translator for small to medium size projects without dependencies.
+![miniFASTA](https://github.com/not-a-feature/miniFASTA/raw/main/miniFASTA.png)
+
+An easy FASTA object handler, reader, writer and translator for small to medium size projects without dependencies.
 
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
 ![Download Badge](https://img.shields.io/pypi/dm/miniFASTA.svg)
