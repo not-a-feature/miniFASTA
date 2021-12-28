@@ -1,2 +1,5 @@
 os
 typing
+zipfile
+gzip
+tarfile
