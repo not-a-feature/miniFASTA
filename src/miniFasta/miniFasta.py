@@ -104,6 +104,12 @@ class fasta_object():
         """
         return len(self.body)
 
+    def write(self, file_path: str, mode="w"):
+        """
+        Writes this fasta_object to a file.
+        """
+        write([self], file_path, mode)
+
     def toAmino(self, d=translation_dict):
         """
         Translates the dna sequence of a fasta_object to amino-acids.

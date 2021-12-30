@@ -14,6 +14,16 @@ def test_write_read():
     remove(file_path)
     assert fo == fo_read
 
+def test_write_byself():
+    file_path = path.join(path.dirname(__file__), "write_fasta_test.fasta")
+
+    fo = mf.fasta_object(">Pacific dolphin", "CTTTCTATCTCSATTTCCTCT")
+
+    fo.write(file_path)
+
+    fo_read = mf.read(file_path)
+    remove(file_path)
+    assert [fo] == fo_read
 
 def test_translate_seq():
     assert mf.translate_seq("CGGCCTTCTATCTTCTTC") == "RPSIFF"
