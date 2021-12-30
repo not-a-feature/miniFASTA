@@ -54,9 +54,19 @@ complement_dict = {"A": "T",
 
 
 class fasta_object():
-    def __init__(self, head: str, body: str):
+    def __init__(self, head: str, body: str, stype: str = "any"):
         """
-        Object to keep a valid fasta object
+        Object to keep a fasta entry.
+        Input:
+            head:  str, head of fasta entry.
+            body:  str, body of fasta entry.
+            stype: str, type of the sequence.
+                        Check with self.valid() if the body consits of valid characters.
+                        One of  NA: Allows all Nucleic Acid Codes (DNA & RNA)
+                               DNA: Allows all IUPAC DNA Codes
+                               RNA: Allows all IUPAC DNA Codes
+                              PROT: Allows all IUPAC Aminoacid Codes
+                               ANY: Allows all characters [default]
         """
         if head.startswith(">"):
             self.head = head
@@ -64,6 +74,11 @@ class fasta_object():
             self.head = f">{head}"
 
         self.body = body
+
+        if stype.upper() in ["NA", "DNA", "RNA", "PROT", "ANY"]:
+            self.stype = stype.upper()
+        else:
+            raise RuntimeError("fasta object type must be one of 'dna', 'prot' or 'any'.")
 
     def __str__(self):
         """
@@ -97,6 +112,32 @@ class fasta_object():
         Does not check for header-length equality.
         """
         return len(self.body)
+
+    def valid(self, allowedChars: str = ""):
+        """
+        Checks if this fasta_object is valid.
+        stype of fasta_object needs to be set in order to check for illegal characters in its body.
+        Input:
+            allowedChars: str, optional to overwrite default settings.
+        """
+        if 250000 <= len(self.body):
+            return False
+
+        if not allowedChars:
+            if self.stype == "ANY":
+                return True
+            elif self.stype == "PROT":
+                allowedChars = "ACDEFGHIKLMNPWRSTVWYUOBJZ*X-."
+            else:
+                allowedChars = "ACGRYSWKMBDHVN"
+                if self.stype == "NA":
+                    allowedChars += "TU"
+                elif self.stype == "DNA":
+                    allowedChars += "T"
+                elif self.stype == "RNA":
+                    allowedChars += "U"
+
+        return all([c in allowedChars for c in self.body])
 
     def toAmino(self, d=translation_dict):
         """
