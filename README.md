@@ -3,6 +3,7 @@
 An easy FASTA object handler, reader, writer and translator for small to medium size projects without dependencies.
 
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
+![Python Version Badge](https://img.shields.io/pypi/pyversions/miniFASTA)
 ![Download Badge](https://img.shields.io/pypi/dm/miniFASTA.svg)
 ## Installation
 Using pip  / pip3:
@@ -22,6 +23,7 @@ The five main parts are:
 - fasta_object()
     - toAmino()
     - roRevComp()
+    - valid()
     - len() / str() / eq()
 - read()
 - write()
@@ -34,7 +36,7 @@ The core component of miniFASTA is the ```fasta_object()```. This object represe
 
 ```python 
 import miniFasta as mf
-fo = mf.fasta_object(">Atlantic dolphin", "CGGCCTTCTATCTTCTTC")
+fo = mf.fasta_object(">Atlantic dolphin", "CGGCCTTCTATCTTCTTC", stype="DNA")
 print(fo.head) # >Atlantic dolphin
 print(fo.body) # CGGCCTTCTATCTTCTTC
 
@@ -55,6 +57,39 @@ print(fo == fo_b) # True
 
 fo_c = mf.fasta_object(">Different Body", "ZZZZAGCTAG")
 print(fo == fo_c) # False
+```
+
+**fasta_object(...).valid()**
+
+Checks if the body contains invalid characters.
+_stype_ of fasta_object needs to be set in order to check for illegal characters in its body.
+
+stype is one of:
+- ANY : [default] Allows all characters.
+- NA  : Allows all Nucleic Acid Codes (DNA & RNA).
+- DNA : Allows all IUPAC DNA Codes.
+- RNA : Allows all IUPAC DNA Codes.
+- PROT: Allows all IUPAC Aminoacid Codes.
+
+Optional: allowedChars can be set to overwrite default settings.
+
+```python
+# The default object allows all characters.
+# True
+fasta_object(">valid", "Ä'_**?.asdLLA").valid()
+
+# Only if stype is specified, valid can check for illegal characters.
+# True
+fasta_object(">valid", "ACGTUAGTGU", stype="NA").valid()
+
+# False, as W is not allows for DNA/RNA
+fasta_object(">invalid", "ACWYUOTGU", stype="NA").valid() 
+
+# True
+fasta_object(">valid", "AGGATTA", stype="ANY").valid(allowedChars = "AGTC")
+
+# True, as stype is ignored if allowedChars is set.
+fasta_object(">valid", "WYU", stype="DNA").valid(allowedChars = "WYU") 
 ```
 
 **fasta_object(...).toAmino(translation_dict)**

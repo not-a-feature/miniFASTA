@@ -8,12 +8,6 @@ Or:  https://pypi.org/project/miniFasta/
 License: GPL-3.0
 """
 
-from os import path
-from typing import List
-from zipfile import ZipFile
-import gzip
-import tarfile
-
 # Usual translation dictionary according to
 # https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi#SG1
 translation_dict = {"TTT": "F", "TTC": "F",
@@ -60,9 +54,19 @@ complement_dict = {"A": "T",
 
 
 class fasta_object():
-    def __init__(self, head: str, body: str):
+    def __init__(self, head: str, body: str, stype: str = "any"):
         """
-        Object to keep a valid fasta object
+        Object to keep a fasta entry.
+        Input:
+            head:  str, head of fasta entry.
+            body:  str, body of fasta entry.
+            stype: str, type of the sequence.
+                        Check with self.valid() if the body consits of valid characters.
+                        One of  NA: Allows all Nucleic Acid Codes (DNA & RNA)
+                               DNA: Allows all IUPAC DNA Codes
+                               RNA: Allows all IUPAC DNA Codes
+                              PROT: Allows all IUPAC Aminoacid Codes
+                               ANY: Allows all characters [default]
         """
         if head.startswith(">"):
             self.head = head
@@ -71,7 +75,12 @@ class fasta_object():
 
         self.body = body
 
-    def __str__(self):
+        if stype.upper() in ["NA", "DNA", "RNA", "PROT", "ANY"]:
+            self.stype = stype.upper()
+        else:
+            raise RuntimeError("fasta object type must be one of 'dna', 'prot' or 'any'.")
+
+    def __str__(self) -> str:
         """
         Magic method to allow fasta_object printing.
         """
@@ -84,27 +93,53 @@ class fasta_object():
         # Remove tailing newline
         return out[:-1]
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Magic method to allow printing of fasta_object representation.
         """
         return f'fasta_object("{self.head}", "{self.body}")'
 
-    def __eq__(self, o):
+    def __eq__(self, o) -> bool:
         """
         Magic method to allow equality check on fasta_objects.
         Does not check for header equality.
         """
-        return self.body == o.body
+        return self.body == o.body  # type:ignore
 
-    def __len__(self):
+    def __len__(self) -> int:
         """
         Magic method to allow len() on fasta_objects.
         Does not check for header-length equality.
         """
         return len(self.body)
 
-    def toAmino(self, d=translation_dict):
+    def valid(self, allowedChars: str = "") -> bool:
+        """
+        Checks if this fasta_object is valid.
+        stype of fasta_object needs to be set in order to check for illegal characters in its body.
+        Input:
+            allowedChars: str, optional to overwrite default settings.
+        """
+        if 250000 <= len(self.body):
+            return False
+
+        if not allowedChars:
+            if self.stype == "ANY":
+                return True
+            elif self.stype == "PROT":
+                allowedChars = "ACDEFGHIKLMNPWRSTVWYUOBJZ*X-."
+            else:
+                allowedChars = "ACGRYSWKMBDHVN"
+                if self.stype == "NA":
+                    allowedChars += "TU"
+                elif self.stype == "DNA":
+                    allowedChars += "T"
+                elif self.stype == "RNA":
+                    allowedChars += "U"
+
+        return all([c in allowedChars for c in self.body])
+
+    def toAmino(self, d=translation_dict) -> None:
         """
         Translates the dna sequence of a fasta_object to amino-acids.
         Reading frame starts at position 0, tailing bases will be ignored.
@@ -114,7 +149,7 @@ class fasta_object():
         """
         self.body = translate_seq(self.body, d)
 
-    def toRevComp(self,  d=complement_dict):
+    def toRevComp(self,  d=complement_dict) -> None:
         """
         Reverses complement of sequence.
         If no complement was found, the nucleotide remains unchanged.
@@ -122,109 +157,6 @@ class fasta_object():
             d: dict, dictionary of complement.
         """
         self.body = reverse_comp(self.body, d)
-
-
-def read(file_path: str, upper: bool = True) -> List[fasta_object]:
-    """
-    Reads a compressed or non-compressed fasta file and returns a list of fasta_objects.
-    Zip, tar, gz, tar.gz files are supported.
-    Attention: Encoding characters (backslash) will work under certain conditions.
-
-    Input:
-        file_path: str, path to folder / file
-        upper: bool, cast sequence to upper-case letters.
-
-    Returns:
-        fasta_objects: list of fasta_object
-    """
-
-    if not path.isfile(file_path):
-        raise FileNotFoundError("Fasta File not found!")
-
-    handlers = []
-    file_type = file_path.split(".")[-1]
-
-    if file_type in ["zip", "tar", "gz"]:
-        # .zip file
-        if file_type == "zip":
-            zipHandler = ZipFile(file_path, 'r')
-            # Create handler for every file in zip
-            for inner_file in zipHandler.namelist():  # type:ignore
-                handlers.append(zipHandler.open(inner_file, "r"))  # type:ignore
-        # .tar file
-        elif file_type == "tar":
-            tarHandler = tarfile.open(file_path, "r")
-            # Create handler for every file in tar
-            for inner_file in tarHandler.getmembers():  # type:ignore
-                handlers.append(tarHandler.extractfile(inner_file))  # type:ignore
-        # .gz file
-        elif file_type == "gz":
-            # tar.gz file
-            if file_path.split(".")[-2] == "tar":
-                # Create handler for every file in tar.gz
-                tarHandler = tarfile.open(file_path, "r")
-                for inner_file in tarHandler.getmembers():  # type:ignore
-                    handlers.append(tarHandler.extractfile(inner_file))  # type:ignore
-            else:
-                # .gz file
-                handlers = [gzip.open(file_path, "r")]  # type:ignore
-    else:
-        handlers = [open(file_path, "r")]  # type:ignore
-
-    fasta_objects = []
-    for h in handlers:
-        with h:
-            head = ""
-            body = ""
-            newObject = True
-
-            for maybeByteLine in h:
-                # Convert byte string to string
-                if isinstance(maybeByteLine, bytes):
-                    line = maybeByteLine.decode('utf-8')
-                else:
-                    line = maybeByteLine  # type:ignore
-
-                # Go through each line
-                # First Header
-                if newObject and line.startswith(">"):
-                    head = line.strip()
-                    body = ""
-                    newObject = False
-                # N-th Header
-                elif line.startswith(">"):
-                    fasta_objects.append(fasta_object(head, body))
-                    head = line.strip()
-                    body = ""
-                # Sequence
-                else:
-                    addBody = line.strip()
-                    if upper:
-                        addBody = addBody.upper()
-
-                    body += addBody
-            # append last element
-            fasta_objects.append(fasta_object(head, body))
-    return fasta_objects
-
-
-def write(fasta_pairs, file_path: str, mode="w") -> None:
-    """
-    Writes a list of fasta_objects or a single one to a file.
-    Takes fasta_objects as input.
-    """
-
-    if not isinstance(fasta_pairs, list):
-        fasta_pairs = [fasta_pairs]
-
-    with open(file_path, mode) as f:
-        for fo in fasta_pairs:
-            f.write(f"{fo.head}\n")
-            body_len = len(fo.body)
-            # Write only 70 chars per line
-            for i in range(0, body_len, 70):
-                f.write(f"{fo.body[i:i+70]}\n")
-    return None
 
 
 def print_fasta(fasta) -> None:
