@@ -80,7 +80,7 @@ class fasta_object():
         else:
             raise RuntimeError("fasta object type must be one of 'dna', 'prot' or 'any'.")
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Magic method to allow fasta_object printing.
         """
@@ -93,27 +93,27 @@ class fasta_object():
         # Remove tailing newline
         return out[:-1]
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Magic method to allow printing of fasta_object representation.
         """
         return f'fasta_object("{self.head}", "{self.body}")'
 
-    def __eq__(self, o):
+    def __eq__(self, o) -> bool:
         """
         Magic method to allow equality check on fasta_objects.
         Does not check for header equality.
         """
-        return self.body == o.body
+        return self.body == o.body  # type:ignore
 
-    def __len__(self):
+    def __len__(self) -> int:
         """
         Magic method to allow len() on fasta_objects.
         Does not check for header-length equality.
         """
         return len(self.body)
 
-    def valid(self, allowedChars: str = ""):
+    def valid(self, allowedChars: str = "") -> bool:
         """
         Checks if this fasta_object is valid.
         stype of fasta_object needs to be set in order to check for illegal characters in its body.
@@ -139,7 +139,7 @@ class fasta_object():
 
         return all([c in allowedChars for c in self.body])
 
-    def toAmino(self, d=translation_dict):
+    def toAmino(self, d=translation_dict) -> None:
         """
         Translates the dna sequence of a fasta_object to amino-acids.
         Reading frame starts at position 0, tailing bases will be ignored.
@@ -149,7 +149,7 @@ class fasta_object():
         """
         self.body = translate_seq(self.body, d)
 
-    def toRevComp(self,  d=complement_dict):
+    def toRevComp(self,  d=complement_dict) -> None:
         """
         Reverses complement of sequence.
         If no complement was found, the nucleotide remains unchanged.

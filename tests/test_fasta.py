@@ -116,6 +116,7 @@ def test_valid():
     fo = mf.fasta_object(">invalid", "FACG", stype="ANY")
     assert not fo.valid(allowedChars="ACGT")
 
+
 @pytest.mark.xfail
 def test_invalid_type_exception():
     fo = mf.fasta_object(">valid", "ACGTAGGT", stype="AA")
