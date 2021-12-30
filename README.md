@@ -3,6 +3,7 @@
 An easy FASTA object handler, reader, writer and translator for small to medium size projects without dependencies.
 
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
+![Python Version Badge](https://img.shields.io/pypi/pyversions/miniFASTA)
 ![Download Badge](https://img.shields.io/pypi/dm/miniFASTA.svg)
 ## Installation
 Using pip  / pip3:
