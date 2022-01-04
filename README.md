@@ -1,10 +1,16 @@
 ![miniFASTA](https://github.com/not-a-feature/miniFASTA/raw/main/miniFASTA.png)
 
-An easy FASTA object handler, reader, writer and translator for small to medium size projects without dependencies.
+A simple FASTA toolbox for small to medium size projects without dependencies.
 
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
 ![Python Version Badge](https://img.shields.io/pypi/pyversions/miniFASTA)
 ![Download Badge](https://img.shields.io/pypi/dm/miniFASTA.svg)
+
+FASTA files are text-based files for storing nucleotide or amino acid sequences.
+Reading such files is not particularly difficult, yet most off the shelf packages are overloaded with strange dependencies.
+
+miniFASTA offers an alternative to this and brings many useful functions without relying on third party packages.
+
 ## Installation
 Using pip  / pip3:
 ```bash
