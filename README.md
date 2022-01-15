@@ -1,10 +1,16 @@
 ![miniFASTA](https://github.com/not-a-feature/miniFASTA/raw/main/miniFASTA.png)
 
-An easy FASTA object handler, reader, writer and translator for small to medium size projects without dependencies.
+A simple FASTA toolbox for small to medium size projects without dependencies.
 
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
 ![Python Version Badge](https://img.shields.io/pypi/pyversions/miniFASTA)
 ![Download Badge](https://img.shields.io/pypi/dm/miniFASTA.svg)
+
+FASTA files are text-based files for storing nucleotide or amino acid sequences.
+Reading such files is not particularly difficult, yet most off the shelf packages are overloaded with strange dependencies.
+
+miniFASTA offers an alternative to this and brings many useful functions without relying on third party packages.
+
 ## Installation
 Using pip  / pip3:
 ```bash
@@ -32,7 +38,7 @@ The five main parts are:
 
 
 ### fasta_object()
-The core component of miniFASTA is the ```fasta_object()```. This object represents an entry in a FASTA file and consists of a head and body.
+The core component of miniFASTA is the ```fasta_object()```. This object represents an FASTA entry and consists of a head and body.
 
 ```python 
 import miniFasta as mf
@@ -68,7 +74,7 @@ stype is one of:
 - ANY : [default] Allows all characters.
 - NA  : Allows all Nucleic Acid Codes (DNA & RNA).
 - DNA : Allows all IUPAC DNA Codes.
-- RNA : Allows all IUPAC DNA Codes.
+- RNA : Allows all IUPAC RNA Codes.
 - PROT: Allows all IUPAC Aminoacid Codes.
 
 Optional: allowedChars can be set to overwrite default settings.
@@ -82,7 +88,7 @@ fasta_object(">valid", "Ä'_**?.asdLLA").valid()
 # True
 fasta_object(">valid", "ACGTUAGTGU", stype="NA").valid()
 
-# False, as W is not allows for DNA/RNA
+# False, as W is not allowed for DNA/RNA
 fasta_object(">invalid", "ACWYUOTGU", stype="NA").valid() 
 
 # True
@@ -122,7 +128,7 @@ fos = mf.read("reads.tar.gz") # Is able to handle compressed files.
 ```
 
 ## Writing FASTA files
-`write()` is a basic fasta reader.
+`write()` is a basic fasta writer.
 It takes a single or a list of fasta_objects and writes it to the given path. 
 
 The file is usually overwritten. Set `write(fo, "path.fasta", mode="a")` to append file.
