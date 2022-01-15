@@ -38,7 +38,7 @@ The five main parts are:
 
 
 ### fasta_object()
-The core component of miniFASTA is the ```fasta_object()```. This object represents an entry in a FASTA file and consists of a head and body.
+The core component of miniFASTA is the ```fasta_object()```. This object represents an FASTA entry and consists of a head and body.
 
 ```python 
 import miniFasta as mf
@@ -74,7 +74,7 @@ stype is one of:
 - ANY : [default] Allows all characters.
 - NA  : Allows all Nucleic Acid Codes (DNA & RNA).
 - DNA : Allows all IUPAC DNA Codes.
-- RNA : Allows all IUPAC DNA Codes.
+- RNA : Allows all IUPAC RNA Codes.
 - PROT: Allows all IUPAC Aminoacid Codes.
 
 Optional: allowedChars can be set to overwrite default settings.
@@ -88,7 +88,7 @@ fasta_object(">valid", "Ä'_**?.asdLLA").valid()
 # True
 fasta_object(">valid", "ACGTUAGTGU", stype="NA").valid()
 
-# False, as W is not allows for DNA/RNA
+# False, as W is not allowed for DNA/RNA
 fasta_object(">invalid", "ACWYUOTGU", stype="NA").valid() 
 
 # True
@@ -128,7 +128,7 @@ fos = mf.read("reads.tar.gz") # Is able to handle compressed files.
 ```
 
 ## Writing FASTA files
-`write()` is a basic fasta reader.
+`write()` is a basic fasta writer.
 It takes a single or a list of fasta_objects and writes it to the given path. 
 
 The file is usually overwritten. Set `write(fo, "path.fasta", mode="a")` to append file.
