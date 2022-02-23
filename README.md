@@ -43,10 +43,10 @@ The core component of miniFASTA is the ```fasta_object()```. This object represe
 ```python 
 import miniFasta as mf
 fo = mf.fasta_object(">Atlantic dolphin", "CGGCCTTCTATCTTCTTC", stype="DNA")
-print(fo.getHead()) or print(fo.head
+fo.getHead() or fo.head
 # >Atlantic dolphin
 
-print(fo.getSeq()) or print(fo.body)
+fo.getSeq() or fo.body
 # CGGCCTTCTATCTTCTTC
 
 ### Following functions are defined on a fasta_object():
@@ -59,13 +59,13 @@ str(fo) # will return:
 len(fo) # will return 18, the length of the body
 
 # Equality 
-print(fo == fo) # True
+fo == fo # True
 
 fo_b = mf.fasta_object(">Same Body", "CGGCCTTCTATCTTCTTC")
-print(fo == fo_b) # True
+fo == fo_b # True
 
 fo_c = mf.fasta_object(">Different Body", "ZZZZAGCTAG")
-print(fo == fo_c) # False
+fo == fo_c # False
 
 for s in fo:
     # Iterates through the sequence of fo.
@@ -109,17 +109,17 @@ fasta_object(">valid", "WYU", stype="DNA").valid(allowedChars = "WYU")
 Translates the body to an amino-acid sequence. See `tranlate_seq()` for more details.
 ```python 
 fo.toAmino() 
-print(fo.body) # Will return RPSIFF
+fo.getBody() # Will return RPSIFF
 d = {"CCG": "Z", "CTT": "A" ...}
 fo.toAmino(d) 
-print(fo.body) # Will return ZA...
+fo.getBody # Will return ZA...
 ```
 **fasta_object(...).toRevComp(complement_dict)**
 
 Converts the body to its reverse comlement. See `reverse_comp()` for more details.
 ```python 
 fo.toRevComp() 
-print(fo.body) # Will return GAAGAAGATAGAAGGCCG
+fo.getBody # Will return GAAGAAGATAGAAGGCCG
 ```
 ## Reading FASTA files
 `read()` is a fasta reader which is able to handle compressed and non-compressed files.

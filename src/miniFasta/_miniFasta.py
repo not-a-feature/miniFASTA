@@ -7,6 +7,7 @@ Or:  https://pypi.org/project/miniFasta/
 @author: Jules Kreuer / not_a_feature
 License: GPL-3.0
 """
+from typing import Iterator
 
 # Usual translation dictionary according to
 # https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi#SG1
@@ -113,19 +114,19 @@ class fasta_object():
         """
         return len(self.body)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[str]:
         """
         Magic method to iterate through the sequence.
         """
         return iter(self.body)
 
-    def getHead(self):
+    def getHead(self) -> str:
         """
         Getter method to return the head / sequence id.
         """
         return self.head
 
-    def getSeq(self):
+    def getSeq(self) -> str:
         """
         Getter method to return the sequence.
         """
