@@ -30,7 +30,7 @@ The five main parts are:
     - toAmino()
     - roRevComp()
     - valid()
-    - len() / str() / eq()
+    - len() / str() / eq() / iter()
 - read()
 - write()
 - translate_seq()
@@ -43,8 +43,11 @@ The core component of miniFASTA is the ```fasta_object()```. This object represe
 ```python 
 import miniFasta as mf
 fo = mf.fasta_object(">Atlantic dolphin", "CGGCCTTCTATCTTCTTC", stype="DNA")
-print(fo.head) # >Atlantic dolphin
-print(fo.body) # CGGCCTTCTATCTTCTTC
+print(fo.getHead()) or print(fo.head
+# >Atlantic dolphin
+
+print(fo.getSeq()) or print(fo.body)
+# CGGCCTTCTATCTTCTTC
 
 ### Following functions are defined on a fasta_object():
 
@@ -63,6 +66,9 @@ print(fo == fo_b) # True
 
 fo_c = mf.fasta_object(">Different Body", "ZZZZAGCTAG")
 print(fo == fo_c) # False
+
+for s in fo:
+    # Iterates through the sequence of fo.
 ```
 
 **fasta_object(...).valid()**
@@ -160,7 +166,7 @@ mf.reverse_comp("TC", d) # Will return ZY
 
 ## License
 ```
-Copyright (C) 2021 by Jules Kreuer - @not_a_feature
+Copyright (C) 2022 by Jules Kreuer - @not_a_feature
 This piece of software is published unter the GNU General Public License v3.0
 TLDR:
 

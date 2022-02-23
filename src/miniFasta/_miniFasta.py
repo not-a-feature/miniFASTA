@@ -113,6 +113,24 @@ class fasta_object():
         """
         return len(self.body)
 
+    def __iter__(self):
+        """
+        Magic method to iterate through the sequence.
+        """
+        return iter(self.body)
+
+    def getHead(self):
+        """
+        Getter method to return the head / sequence id.
+        """
+        return self.head
+
+    def getSeq(self):
+        """
+        Getter method to return the sequence.
+        """
+        return self.body
+
     def valid(self, allowedChars: str = "") -> bool:
         """
         Checks if this fasta_object is valid.
