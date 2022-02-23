@@ -79,6 +79,21 @@ def test_eq_fasta():
     assert not foc == foa
 
 
+def test_getter():
+    fo = mf.fasta_object(">test", "abc")
+    assert fo.body == fo.getSeq()
+    assert fo.head == fo.getHead()
+
+
+def test_iter_fasta():
+    fo = mf.fasta_object(">test", "abc")
+    body = ""
+    for s in fo:
+        body = body + s
+
+    assert body == fo.body
+
+
 def test_valid():
     fo = mf.fasta_object(">valid", "Ä'_**?.asdLLA")
     assert fo.valid()
