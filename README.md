@@ -5,6 +5,7 @@ A simple FASTA toolbox for small to medium size projects without dependencies.
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
 ![Python Version Badge](https://img.shields.io/pypi/pyversions/miniFASTA)
 ![Download Badge](https://img.shields.io/pypi/dm/miniFASTA.svg)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 FASTA files are text-based files for storing nucleotide or amino acid sequences.
 Reading such files is not particularly difficult, yet most off the shelf packages are overloaded with strange dependencies.

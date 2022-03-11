@@ -11,50 +11,94 @@ from typing import Iterator
 
 # Usual translation dictionary according to
 # https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi#SG1
-translation_dict = {"TTT": "F", "TTC": "F",
-                    "TTA": "L", "TTG": "L",
-                    "TCT": "S", "TCC": "S", "TCA": "S", "TCG": "S",
-                    "TAT": "Y", "TAC": "Y",
-                    "TAA": "*", "TAG": "*", "TGA": "*",
-                    "TGT": "C", "TGC": "C",
-                    "TGG": "W",
-                    "CTT": "L", "CTC": "L", "CTA": "L", "CTG": "L",
-                    "CCT": "P", "CCC": "P", "CCA": "P", "CCG": "P",
-                    "CAT": "H", "CAC": "H",
-                    "CAA": "Q", "CAG": "Q",
-                    "CGT": "R", "CGC": "R", "CGA": "R", "CGG": "R",
-                    "ATT": "I", "ATC": "I", "ATA": "I",
-                    "ATG": "M",
-                    "ACT": "T", "ACC": "T", "ACA": "T", "ACG": "T",
-                    "AAT": "N", "AAC": "N",
-                    "AAA": "K", "AAG": "K",
-                    "AGT": "S", "AGC": "S",
-                    "AGA": "R", "AGG": "R",
-                    "GTT": "V", "GTC": "V", "GTA": "V", "GTG": "V",
-                    "GCT": "A", "GCC": "A", "GCA": "A", "GCG": "A",
-                    "GAT": "D", "GAC": "D",
-                    "GAA": "E", "GAG": "E",
-                    "GGT": "G", "GGC": "G", "GGA": "G", "GGG": "G"}
+translation_dict = {
+    "TTT": "F",
+    "TTC": "F",
+    "TTA": "L",
+    "TTG": "L",
+    "TCT": "S",
+    "TCC": "S",
+    "TCA": "S",
+    "TCG": "S",
+    "TAT": "Y",
+    "TAC": "Y",
+    "TAA": "*",
+    "TAG": "*",
+    "TGA": "*",
+    "TGT": "C",
+    "TGC": "C",
+    "TGG": "W",
+    "CTT": "L",
+    "CTC": "L",
+    "CTA": "L",
+    "CTG": "L",
+    "CCT": "P",
+    "CCC": "P",
+    "CCA": "P",
+    "CCG": "P",
+    "CAT": "H",
+    "CAC": "H",
+    "CAA": "Q",
+    "CAG": "Q",
+    "CGT": "R",
+    "CGC": "R",
+    "CGA": "R",
+    "CGG": "R",
+    "ATT": "I",
+    "ATC": "I",
+    "ATA": "I",
+    "ATG": "M",
+    "ACT": "T",
+    "ACC": "T",
+    "ACA": "T",
+    "ACG": "T",
+    "AAT": "N",
+    "AAC": "N",
+    "AAA": "K",
+    "AAG": "K",
+    "AGT": "S",
+    "AGC": "S",
+    "AGA": "R",
+    "AGG": "R",
+    "GTT": "V",
+    "GTC": "V",
+    "GTA": "V",
+    "GTG": "V",
+    "GCT": "A",
+    "GCC": "A",
+    "GCA": "A",
+    "GCG": "A",
+    "GAT": "D",
+    "GAC": "D",
+    "GAA": "E",
+    "GAG": "E",
+    "GGT": "G",
+    "GGC": "G",
+    "GGA": "G",
+    "GGG": "G",
+}
 
 # Usual reverse complement
-complement_dict = {"A": "T",
-                   "G": "C",
-                   "C": "G",
-                   "T": "A",
-                   "U": "A",
-                   "R": "Y",
-                   "Y": "R",
-                   "S": "S",
-                   "W": "W",
-                   "K": "M",
-                   "M": "K",
-                   "B": "V",
-                   "V": "B",
-                   "D": "H",
-                   "H": "D"}
+complement_dict = {
+    "A": "T",
+    "G": "C",
+    "C": "G",
+    "T": "A",
+    "U": "A",
+    "R": "Y",
+    "Y": "R",
+    "S": "S",
+    "W": "W",
+    "K": "M",
+    "M": "K",
+    "B": "V",
+    "V": "B",
+    "D": "H",
+    "H": "D",
+}
 
 
-class fasta_object():
+class fasta_object:
     def __init__(self, head: str, body: str, stype: str = "any"):
         """
         Object to keep a fasta entry.
@@ -85,11 +129,11 @@ class fasta_object():
         """
         Magic method to allow fasta_object printing.
         """
-        out = f'{self.head}\n'
+        out = f"{self.head}\n"
 
         # Print only 70 chars per line
         for i in range(0, len(self.body), 70):
-            out += f'{self.body[i:i+70]}\n'
+            out += f"{self.body[i:i+70]}\n"
 
         # Remove tailing newline
         return out[:-1]
@@ -168,7 +212,7 @@ class fasta_object():
         """
         self.body = translate_seq(self.body, d)
 
-    def toRevComp(self,  d=complement_dict) -> None:
+    def toRevComp(self, d=complement_dict) -> None:
         """
         Reverses complement of sequence.
         If no complement was found, the nucleotide remains unchanged.
@@ -224,7 +268,7 @@ def translate_seq(seq: str, d=translation_dict) -> str:
 
     translated = ""
     for i in range(0, len(seq), 3):
-        codon = seq[i:i+3]
+        codon = seq[i : i + 3]
         if not len(codon) == 3:
             break
         translated += __maybeFind(codon, d, "~")
