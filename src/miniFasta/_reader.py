@@ -40,7 +40,7 @@ def read(file_path: str, upper: bool = True) -> List[fasta_object]:
     if file_type in ["zip", "tar", "gz"]:
         # .zip file
         if file_type == "zip":
-            zipHandler = ZipFile(file_path, 'r')
+            zipHandler = ZipFile(file_path, "r")
             # Create handler for every file in zip
             for inner_file in zipHandler.namelist():  # type:ignore
                 handlers.append(zipHandler.open(inner_file, "r"))  # type:ignore
@@ -74,7 +74,7 @@ def read(file_path: str, upper: bool = True) -> List[fasta_object]:
             for maybeByteLine in h:
                 # Convert byte string to string
                 if isinstance(maybeByteLine, bytes):
-                    line = maybeByteLine.decode('utf-8')
+                    line = maybeByteLine.decode("utf-8")
                 else:
                     line = maybeByteLine  # type:ignore
 

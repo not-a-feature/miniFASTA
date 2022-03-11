@@ -7,8 +7,10 @@ import pytest
 def test_write_read():
     file_path = path.join(path.dirname(__file__), "write_fasta_test.fasta")
 
-    fo = [mf.fasta_object(">Atlantic dolphin", "CGGCCTT*CTAAAAATTZZZ*ZZZZASASD*TCTTCTTC"),
-          mf.fasta_object(">Pacific dolphin", "CTTTCTATCTCSATTTCCTCT")]
+    fo = [
+        mf.fasta_object(">Atlantic dolphin", "CGGCCTT*CTAAAAATTZZZ*ZZZZASASD*TCTTCTTC"),
+        mf.fasta_object(">Pacific dolphin", "CTTTCTATCTCSATTTCCTCT"),
+    ]
 
     mf.write(fo, file_path)
 
