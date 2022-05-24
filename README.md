@@ -17,11 +17,15 @@ Using pip  / pip3:
 ```bash
 pip install miniFasta
 ```
-Or by source:
+Or by source with pip:
 ```bash
 git clone git@github.com:not-a-feature/miniFASTA.git
 cd miniFASTA
 pip install .
+```
+Or by Anaconda:
+```bash
+conda install -c conda-forge minifasta
 ```
 
 ## How to use
@@ -37,6 +41,28 @@ The five main parts are:
 - translate_seq()
 - reverse_comp()
 
+## Reading FASTA files
+`read()` is a fasta reader which is able to handle compressed and non-compressed files.
+Following compressions are supported: zip, tar, tar.gz, gz. If multiple files are stored inside an archive, all files are read. 
+This function returns a list of fasta_objects. 
+The entries are usually casted to upper case letters. Set `read("path.fasta", upper=False)` to disable casting.
+
+```python
+fos = mf.read("dolphin.fasta") # List of fasta entries.
+fos = mf.read("mouse.fasta", upper=False) # The entries won't be casted to upper case.
+fos = mf.read("reads.tar.gz") # Is able to handle compressed files.
+```
+
+## Writing FASTA files
+`write()` is a basic fasta writer.
+It takes a single or a list of fasta_objects and writes it to the given path. 
+
+The file is usually overwritten. Set `write(fo, "path.fasta", mode="a")` to append file.
+
+```python
+fos = mf.read("dolphin.fasta") # List of fasta entries
+mf.write(fos, "new.fasta")
+```
 
 ### fasta_object()
 The core component of miniFASTA is the ```fasta_object()```. This object represents an FASTA entry and consists of a head and body.
@@ -122,28 +148,7 @@ Converts the body to its reverse comlement. See `reverse_comp()` for more detail
 fo.toRevComp() 
 fo.getBody # Will return GAAGAAGATAGAAGGCCG
 ```
-## Reading FASTA files
-`read()` is a fasta reader which is able to handle compressed and non-compressed files.
-Following compressions are supported: zip, tar, tar.gz, gz. If multiple files are stored inside an archive, all files are read. 
-This function returns a list of fasta_objects. 
-The entries are usually casted to upper case letters. Set `read("path.fasta", upper=False)` to disable casting.
 
-```python
-fos = mf.read("dolphin.fasta") # List of fasta entries.
-fos = mf.read("mouse.fasta", upper=False) # The entries won't be casted to upper case.
-fos = mf.read("reads.tar.gz") # Is able to handle compressed files.
-```
-
-## Writing FASTA files
-`write()` is a basic fasta writer.
-It takes a single or a list of fasta_objects and writes it to the given path. 
-
-The file is usually overwritten. Set `write(fo, "path.fasta", mode="a")` to append file.
-
-```python
-fos = mf.read("dolphin.fasta") # List of fasta entries
-mf.write(fos, "new.fasta")
-```
 ## Sequence translation
 `translate_seq()` translates a sequence starting at position 0.
 Unless translation_dict is provided, the standart bacterial code is used. If the codon was not found, it will be replaced by an `~`. Tailing bases that do not fit into a codon will be ignored.
