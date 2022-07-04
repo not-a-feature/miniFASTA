@@ -200,7 +200,7 @@ class fasta_object:
                 elif self.stype == "RNA":
                     allowedChars += "U"
 
-        return all([c in allowedChars for c in self.body])
+        return all(c in allowedChars for c in self.body)
 
     def toAmino(self, d=translation_dict) -> None:
         """
