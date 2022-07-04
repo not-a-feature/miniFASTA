@@ -4,6 +4,7 @@ A simple FASTA toolbox for small to medium size projects without dependencies.
 
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
 ![Python Version Badge](https://img.shields.io/pypi/pyversions/miniFASTA)
+[![install with conda](https://img.shields.io/badge/install%20with-conda-brightgreen.svg?style=flat)](https://anaconda.org/conda-forge/minifasta)
 ![Download Badge](https://img.shields.io/pypi/dm/miniFASTA.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -23,7 +24,7 @@ git clone git@github.com:not-a-feature/miniFASTA.git
 cd miniFASTA
 pip install .
 ```
-Or by Anaconda:
+Or by conda:
 ```bash
 conda install -c conda-forge minifasta
 ```
