@@ -154,7 +154,7 @@ class fasta_object:
     def __len__(self) -> int:
         """
         Magic method to allow len() on fasta_objects.
-        Does not check for header-length equality.
+        Returns the length of the body
         """
         return len(self.body)
 
