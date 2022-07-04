@@ -14,10 +14,12 @@ import gzip
 import tarfile
 
 from os import path
-from typing import List
+from typing import List, Union
 
 
-def read(file_path: str, upper: bool = True, seq: bool = False) -> List:
+def read(
+    file_path: str, upper: bool = True, seq: bool = False
+) -> Union[List[fasta_object], List[str]]:
     """
     Reads a compressed or non-compressed fasta file and returns a list of fasta_objects.
     Zip, tar, gz, tar.gz files are supported.
@@ -101,5 +103,5 @@ def read(file_path: str, upper: bool = True, seq: bool = False) -> List:
 
     # Return only the sequences if required
     if seq:
-        fasta_objects = [fo.body for fo in fasta_objects]
+        return [fo.body for fo in fasta_objects]
     return fasta_objects
