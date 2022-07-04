@@ -17,7 +17,7 @@ from os import path
 from typing import List
 
 
-def read(file_path: str, upper: bool = True, seq : bool = False) -> List:
+def read(file_path: str, upper: bool = True, seq: bool = False) -> List:
     """
     Reads a compressed or non-compressed fasta file and returns a list of fasta_objects.
     Zip, tar, gz, tar.gz files are supported.
