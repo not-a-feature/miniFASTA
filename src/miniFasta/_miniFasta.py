@@ -154,7 +154,7 @@ class fasta_object:
     def __len__(self) -> int:
         """
         Magic method to allow len() on fasta_objects.
-        Does not check for header-length equality.
+        Returns the length of the body
         """
         return len(self.body)
 
@@ -200,7 +200,7 @@ class fasta_object:
                 elif self.stype == "RNA":
                     allowedChars += "U"
 
-        return all([c in allowedChars for c in self.body])
+        return all(c in allowedChars for c in self.body)
 
     def toAmino(self, d=translation_dict) -> None:
         """

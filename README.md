@@ -45,11 +45,12 @@ The five main parts are:
 ## Reading FASTA files
 `read()` is a fasta reader which is able to handle compressed and non-compressed files.
 Following compressions are supported: zip, tar, tar.gz, gz. If multiple files are stored inside an archive, all files are read. 
-This function returns a list of fasta_objects. 
+This function returns a list of fasta_objects. If only the sequences should be returnes set the positional argument `seq=True`. 
 The entries are usually casted to upper case letters. Set `read("path.fasta", upper=False)` to disable casting.
 
 ```python
 fos = mf.read("dolphin.fasta") # List of fasta entries.
+fos = mf.read("dolphin.fasta", seq=True) # List of string. Only the sequences
 fos = mf.read("mouse.fasta", upper=False) # The entries won't be casted to upper case.
 fos = mf.read("reads.tar.gz") # Is able to handle compressed files.
 ```

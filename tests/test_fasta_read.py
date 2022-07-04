@@ -1,7 +1,7 @@
 import miniFasta as mf
-import pytest
-from os import path
 
+from os import path
+import pytest
 
 dolphin = [
     mf.fasta_object(">Atlantic dolphin", "CGGCCTTCTATCTTCTTC"),
@@ -27,6 +27,11 @@ multi.extend([mf.fasta_object(">RANDOM", "ASGDTASGDTASGD"), mf.fasta_object(">R2
 )
 def test_read(file_path, expected):
     assert mf.read(file_path) == expected
+
+
+def test_read_seq_only():
+    file_path = path.join(path.dirname(__file__), "test_data/test0.fasta")
+    assert mf.read(file_path, seq=True) == [d.body for d in dolphin]
 
 
 def test_read_strange_header():
