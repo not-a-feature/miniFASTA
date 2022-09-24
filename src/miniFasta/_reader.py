@@ -26,11 +26,12 @@ def read(
     Attention: Encoding characters (backslash) will work under certain conditions.
 
     Input:
-        file_path: str, path to folder / file
-        upper: bool, cast sequence to upper-case letters.
+        file_path: str, path to folder / file.
+        upper: bool, cast sequences to upper-case letters.
+        seq: bool, return only the sequences.
 
     Returns:
-        fasta_objects: list of fasta_object or list of strings
+        fasta_objects: list of fasta_object or list of strings.
     """
 
     if not path.isfile(file_path):
