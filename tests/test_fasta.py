@@ -14,7 +14,7 @@ def test_write_read():
 
     mf.write(fo, file_path)
 
-    fo_read = mf.read(file_path)
+    fo_read = list(mf.read(file_path))
     remove(file_path)
     assert fo == fo_read
 
@@ -26,7 +26,7 @@ def test_write_byself():
 
     fo.write(file_path)
 
-    fo_read = mf.read(file_path)
+    fo_read = list(mf.read(file_path))
     remove(file_path)
     assert [fo] == fo_read
 
@@ -54,7 +54,7 @@ def test_reverse_comp_toRevComp():
 
 def test_print_fasta_by_func(capsys):
     file_path = path.join(path.dirname(__file__), "test_data/test0.fasta")
-    mf.print_fasta(mf.read(file_path))
+    mf.print_fasta(list(mf.read(file_path)))
 
     # check if it prints the sequences correctly
     c = capsys.readouterr()
