@@ -1,6 +1,6 @@
 ![miniFASTA](https://github.com/not-a-feature/miniFASTA/raw/main/miniFASTA.png)
 
-A simple FASTA toolbox for small to medium size projects without dependencies.
+A simple FASTA read and write toolbox for small to medium size projects.
 
 
 [![DOI](https://zenodo.org/badge/440126588.svg)](https://zenodo.org/badge/latestdoi/440126588)
@@ -36,44 +36,52 @@ conda install -c conda-forge minifasta
 ## How to use
 miniFASTA offers easy to use functions for fasta handling.
 The five main parts are:
+- read()
+- write()
 - fasta_object()
     - toAmino()
     - roRevComp()
     - valid()
     - len() / str() / eq() / iter()
-- read()
-- write()
 - translate_seq()
 - reverse_comp()
 
 ## Reading FASTA files
 `read()` is a fasta reader which is able to handle compressed and non-compressed files.
-Following compressions are supported: zip, tar, tar.gz, gz. If multiple files are stored inside an archive, all files are read. 
-This function returns a list of fasta_objects. If only the sequences should be returnes set the positional argument `seq=True`. 
+Following compressions are supported: zip, tar, tar.gz, gz. If multiple files are stored inside an archive, all files are read.
+This function returns a Iterator of fasta_objects. If only the sequences should be returnes set the positional argument `seq=True`.
 The entries are usually casted to upper case letters. Set `read("path.fasta", upper=False)` to disable casting.
 
 ```python
-fos = mf.read("dolphin.fasta") # List of fasta entries.
-fos = mf.read("dolphin.fasta", seq=True) # List of string. Only the sequences
+# Read fasta_objects
+fos = mf.read("dolphin.fasta") # Iterator of fasta_objects.
+fos = list(fos) # Casts the iterator to list of fasta_objects
+
+# Read only the sequence
+fasta_strings = mf.read("dolphin.fasta", seq=True) # Iterator of string.
+fasta_strings = [fo.body for fo in mf.read("dolphin.fasta")] # Alternative
+
+# Options and compressed files
 fos = mf.read("mouse.fasta", upper=False) # The entries won't be casted to upper case.
 fos = mf.read("reads.tar.gz") # Is able to handle compressed files.
 ```
 
 ## Writing FASTA files
 `write()` is a basic fasta writer.
-It takes a single or a list of fasta_objects and writes it to the given path. 
+It takes a single or a list of fasta_objects and writes it to the given path.
 
 The file is usually overwritten. Set `write(fo, "path.fasta", mode="a")` to append file.
 
 ```python
-fos = mf.read("dolphin.fasta") # List of fasta entries
+fos = mf.read("dolphin.fasta") # Iterator of fasta entries
+fos = list(fos) # Materialize
 mf.write(fos, "new.fasta")
 ```
 
 ### fasta_object()
 The core component of miniFASTA is the ```fasta_object()```. This object represents an FASTA entry and consists of a head and body.
 
-```python 
+```python
 import miniFasta as mf
 fo = mf.fasta_object(">Atlantic dolphin", "CGGCCTTCTATCTTCTTC", stype="DNA")
 fo.getHead() or fo.head
@@ -91,7 +99,7 @@ str(fo) # will return:
 # Body length
 len(fo) # will return 18, the length of the body
 
-# Equality 
+# Equality
 fo == fo # True
 
 fo_b = mf.fasta_object(">Same Body", "CGGCCTTCTATCTTCTTC")
@@ -128,30 +136,30 @@ fasta_object(">valid", "Ä'_**?.asdLLA").valid()
 fasta_object(">valid", "ACGTUAGTGU", stype="NA").valid()
 
 # False, as W is not allowed for DNA/RNA
-fasta_object(">invalid", "ACWYUOTGU", stype="NA").valid() 
+fasta_object(">invalid", "ACWYUOTGU", stype="NA").valid()
 
 # True
 fasta_object(">valid", "AGGATTA", stype="ANY").valid(allowedChars = "AGTC")
 
 # True, as stype is ignored if allowedChars is set.
-fasta_object(">valid", "WYU", stype="DNA").valid(allowedChars = "WYU") 
+fasta_object(">valid", "WYU", stype="DNA").valid(allowedChars = "WYU")
 ```
 
 **fasta_object(...).toAmino(translation_dict)**
 
 Translates the body to an amino-acid sequence. See `tranlate_seq()` for more details.
-```python 
-fo.toAmino() 
+```python
+fo.toAmino()
 fo.getBody() # Will return RPSIFF
 d = {"CCG": "Z", "CTT": "A" ...}
-fo.toAmino(d) 
+fo.toAmino(d)
 fo.getBody # Will return ZA...
 ```
 **fasta_object(...).toRevComp(complement_dict)**
 
 Converts the body to its reverse comlement. See `reverse_comp()` for more details.
-```python 
-fo.toRevComp() 
+```python
+fo.toRevComp()
 fo.getBody # Will return GAAGAAGATAGAAGGCCG
 ```
 
@@ -159,7 +167,7 @@ fo.getBody # Will return GAAGAAGATAGAAGGCCG
 `translate_seq()` translates a sequence starting at position 0.
 Unless translation_dict is provided, the standart bacterial code is used. If the codon was not found, it will be replaced by an `~`. Tailing bases that do not fit into a codon will be ignored.
 
-```python 
+```python
 mf.translate_seq("CGGCCTTCTATCTTCTTC") # Will return RPSIFF
 
 d = {"CGG": "Z", "CTT": "A"}
@@ -169,7 +177,7 @@ mf.translate_seq("CGGCTT", d) # Will return ZA.
 ## Reverse Complement
 `reverse_comp()` converts a sequence to its reverse comlement.
 Unless complement_dict is provided, the standart complement is used. If no complement was found, the nucleotide remains unchanged.
-```python 
+```python
 mf.reverse_comp("CGGCCTTCTATCTTCTTC") # Will return GAAGAAGATAGAAGGCCG
 
 d = {"C": "Z", "T": "Y"}
