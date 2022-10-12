@@ -17,6 +17,12 @@ from os import path
 from typing import Iterator, Union
 
 
+def __maybeByteToStr(maybeByte) -> str:
+    if isinstance(maybeByte, bytes):
+        return maybeByte.decode("utf-8").rstrip()
+    return str(maybeByte).rstrip()
+
+
 def read(
     file_path: str, upper: bool = True, seq: bool = False
 ) -> Union[Iterator[fasta_object], Iterator[str]]:
@@ -41,31 +47,30 @@ def read(
     file_type = path.splitext(file_path)[1]
 
     # Compressed files
-    if file_type in [".zip", ".tar", ".gz"]:
-        # .zip file
-        if file_type == ".zip":
-            zipHandler = ZipFile(file_path, "r")
-            # Create handler for every file in zip
-            for inner_file in zipHandler.namelist():  # type:ignore
-                handlers.append(zipHandler.open(inner_file, "r"))  # type:ignore
-        # .tar file
-        elif file_type == ".tar":
+    # .zip file
+    if file_type == ".zip":
+        zipHandler = ZipFile(file_path, "r")
+        # Create handler for every file in zip
+        for inner_file in zipHandler.namelist():  # type:ignore
+            handlers.append(zipHandler.open(inner_file, "r"))  # type:ignore
+    # .tar file
+    elif file_type == ".tar":
+        tarHandler = tarfile.open(file_path, "r")
+        # Create handler for every file in tar
+        for inner_file in tarHandler.getmembers():  # type:ignore
+            handlers.append(tarHandler.extractfile(inner_file))  # type:ignore
+    # .gz file
+    elif file_type == ".gz":
+        # tar.gz file
+        inner_file_type = path.splitext(path.splitext(file_path)[0])[1]
+        if inner_file_type == ".tar":
+            # Create handler for every file in tar.gz
             tarHandler = tarfile.open(file_path, "r")
-            # Create handler for every file in tar
             for inner_file in tarHandler.getmembers():  # type:ignore
                 handlers.append(tarHandler.extractfile(inner_file))  # type:ignore
-        # .gz file
-        elif file_type == ".gz":
-            # tar.gz file
-            inner_file_type = path.splitext(path.splitext(file_path)[0])[1]
-            if inner_file_type == ".tar":
-                # Create handler for every file in tar.gz
-                tarHandler = tarfile.open(file_path, "r")
-                for inner_file in tarHandler.getmembers():  # type:ignore
-                    handlers.append(tarHandler.extractfile(inner_file))  # type:ignore
-            else:
-                # .gz file
-                handlers = [gzip.open(file_path, "r")]  # type:ignore
+        else:
+            # .gz file
+            handlers = [gzip.open(file_path, "r")]  # type:ignore
     else:
         handlers = [open(file_path, "r")]  # type:ignore
 
@@ -77,10 +82,7 @@ def read(
 
             for maybe_byte_line in h:
                 # Convert byte string to string
-                if isinstance(maybe_byte_line, bytes):
-                    line = maybe_byte_line.decode("utf-8")
-                else:
-                    line = maybe_byte_line  # type:ignore
+                line = __maybeByteToStr(maybe_byte_line)
 
                 # Go through each line
 
