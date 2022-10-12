@@ -8,6 +8,7 @@ Or:  https://pypi.org/project/miniFasta/
 License: GPL-3.0
 """
 from typing import Iterator
+from dataclasses import dataclass
 
 # Usual translation dictionary according to
 # https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi#SG1
@@ -98,7 +99,12 @@ complement_dict = {
 }
 
 
+@dataclass
 class fasta_object:
+    head: str
+    body: str
+    stype: str
+
     def __init__(self, head: str, body: str, stype: str = "any"):
         """
         Object to keep a fasta entry.
@@ -137,12 +143,6 @@ class fasta_object:
 
         # Remove tailing newline
         return out[:-1]
-
-    def __repr__(self) -> str:
-        """
-        Magic method to allow printing of fasta_object representation.
-        """
-        return f'fasta_object("{self.head}", "{self.body}")'
 
     def __eq__(self, o) -> bool:
         """
