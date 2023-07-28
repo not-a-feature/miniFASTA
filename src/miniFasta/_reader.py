@@ -97,7 +97,7 @@ def read(
                 elif line.startswith(">"):
                     # Yield only sequence or complete fasta_object
                     if seq:
-                        yield body
+                        yield "".join(body)
                     else:
                         yield fasta_object(head, "".join(body))
                     head = line.strip()
@@ -114,6 +114,6 @@ def read(
             # Yield last element
             # Yield only sequence or complete fasta_object
             if seq:
-                yield body
+                yield "".join(body)
             else:
                 yield fasta_object(head, "".join(body))
