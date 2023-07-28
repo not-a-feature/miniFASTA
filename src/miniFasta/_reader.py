@@ -77,7 +77,7 @@ def read(
     for h in handlers:
         with h:
             head = ""
-            body = ""
+            body = []
             newObject = True
 
             for maybe_byte_line in h:
@@ -87,9 +87,10 @@ def read(
                 # Go through each line
 
                 # First Header
+                ">."
                 if newObject and line.startswith(">"):
                     head = line.strip()
-                    body = ""
+                    body = []
                     newObject = False
 
                 # N-th Header
@@ -98,9 +99,9 @@ def read(
                     if seq:
                         yield body
                     else:
-                        yield fasta_object(head, body)
+                        yield fasta_object(head, "".join(body))
                     head = line.strip()
-                    body = ""
+                    body = []
 
                 # Sequence
                 else:
@@ -108,11 +109,11 @@ def read(
                     if upper:
                         addBody = addBody.upper()
 
-                    body += addBody
+                    body.append(addBody)
 
             # Yield last element
             # Yield only sequence or complete fasta_object
             if seq:
                 yield body
             else:
-                yield fasta_object(head, body)
+                yield fasta_object(head, "".join(body))
