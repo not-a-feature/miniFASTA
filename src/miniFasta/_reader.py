@@ -14,7 +14,7 @@ import gzip
 import tarfile
 
 from os import path
-from typing import Iterator, Union
+from typing import Iterator, Union, List
 
 
 def __maybeByteToStr(maybeByte) -> str:
@@ -77,7 +77,7 @@ def read(
     for h in handlers:
         with h:
             head = ""
-            body = []
+            body: List[str] = []
             newObject = True
 
             for maybe_byte_line in h:
