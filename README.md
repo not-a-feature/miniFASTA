@@ -1,4 +1,4 @@
-![miniFASTA](https://github.com/not-a-feature/miniFASTA/raw/main/miniFASTA.png)
+<img src="https://github.com/not-a-feature/miniFASTA/raw/main/miniFASTA.png" width=300px alt="fastq logo"></img>
 
 A simple FASTA read and write toolbox for small to medium size projects.
 
@@ -150,7 +150,7 @@ fasta_object(">valid", "WYU", stype="DNA").valid(allowedChars = "WYU")
 Translates the body to an amino-acid sequence. See `tranlate_seq()` for more details.
 ```python
 fo.toAmino()
-fo.getBody() # Will return RPSIFF
+fo.body # Will return RPSIFF
 d = {"CCG": "Z", "CTT": "A" ...}
 fo.toAmino(d)
 fo.getBody # Will return ZA...
@@ -186,7 +186,7 @@ mf.reverse_comp("TC", d) # Will return ZY
 
 ## License
 ```
-Copyright (C) 2022 by Jules Kreuer - @not_a_feature
+Copyright (C) 2023 by Jules Kreuer - @not_a_feature
 This piece of software is published unter the GNU General Public License v3.0
 TLDR:
 
