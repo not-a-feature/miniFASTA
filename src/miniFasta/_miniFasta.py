@@ -7,6 +7,7 @@ Or:  https://pypi.org/project/miniFasta/
 @author: Jules Kreuer / not_a_feature
 License: GPL-3.0
 """
+
 from typing import Iterator
 from dataclasses import dataclass
 
@@ -108,16 +109,20 @@ class fasta_object:
     def __init__(self, head: str, body: str, stype: str = "any"):
         """
         Object to keep a fasta entry.
-        Input:
-            head:  str, head of fasta entry.
-            body:  str, body of fasta entry.
-            stype: str, type of the sequence.
-                        Check with self.valid() if the body consits of valid characters.
-                        One of  NA: Allows all Nucleic Acid Codes (DNA & RNA)
-                               DNA: Allows all IUPAC DNA Codes
-                               RNA: Allows all IUPAC DNA Codes
-                              PROT: Allows all IUPAC Aminoacid Codes
-                               ANY: Allows all characters [default]
+        Parameters
+        ----------
+            head: str
+                Head of fasta entry.
+            body: str
+                Body of fasta entry.
+            stype: str
+                Type of the sequence.
+                Check with self.valid() if the body consits of valid characters.
+                One of  NA: Allows all Nucleic Acid Codes (DNA & RNA)
+                        DNA: Allows all IUPAC DNA Codes
+                        RNA: Allows all IUPAC DNA Codes
+                        PROT: Allows all IUPAC Aminoacid Codes
+                        ANY: Allows all characters [default]
         """
         if head.startswith(">"):
             self.head = head
@@ -180,8 +185,10 @@ class fasta_object:
         """
         Checks if this fasta_object is valid.
         stype of fasta_object needs to be set in order to check for illegal characters in its body.
-        Input:
-            allowedChars: str, optional to overwrite default settings.
+        Parameters
+        ----------
+            allowedChars: str
+                Optional to overwrite default settings.
         """
         if 250000 <= len(self.body):
             return False
@@ -207,8 +214,11 @@ class fasta_object:
         Translates the dna sequence of a fasta_object to amino-acids.
         Reading frame starts at position 0, tailing bases will be ignored.
         Attention: Will replace triplet with ~ if not found.
-        Input:
-            d: dict, dictionary of translation.
+
+        Parameters
+        ----------
+            d: dict
+                Translation dictionary.
         """
         self.body = translate_seq(self.body, d)
 
@@ -216,8 +226,11 @@ class fasta_object:
         """
         Reverses complement of sequence.
         If no complement was found, the nucleotide remains unchanged.
-        Input:
-            d: dict, dictionary of complement.
+
+        Parameters
+        ----------
+            d: dict
+                Comlement dictionary.
         """
         self.body = reverse_comp(self.body, d)
 
@@ -238,12 +251,20 @@ def print_fasta(fasta) -> None:
 def __maybeFind(key, d, alt):
     """
     Tries to find key in dict but has a fallback.
-    Input:
-        key: hashable, key to find.
-        d: dict, dictionary to search.
-        alt: alternative if key not found.
-    Returns:
-        v: found value or alt
+
+    Parameters
+    ----------
+        key: hashable
+            Key to find.
+        d: dict
+            Dictionary to search.
+        alt: any
+            Alternative if key not found.
+
+    Returns
+    -------
+        v: any
+            Found value or alt.
     """
     try:
         return d[key]
@@ -259,11 +280,16 @@ def translate_seq(seq: str, d=translation_dict) -> str:
 
     To translate a fasta_object use object.toAmino()
 
-    Input:
-        seq: String, sequence to translate.
-        d: dict, dictionary of translation.
+    Parameters
+    ----------
+        seq: str
+            Sequence to translate.
+        d: dict
+            Translation dictionary.
+
     Returns:
-        translated: String, translated sequence.
+        translated: str
+            Translated sequence.
     """
 
     translated = ""
@@ -279,11 +305,18 @@ def reverse_comp(seq: str, d=complement_dict) -> str:
     """
     Reverses complement of sequence.
     If no complement was found, the nucleotides remains unchanged.
-    Input:
-        seq: String, sequence to compute the reverse complement.
-        d: dict, dictionary of complement.
-    Returns:
-        rev: String, translated sequence
+
+    Parameters
+    ----------
+        seq: str
+            Sequence to compute the reverse complement.
+        d: dict
+            Complement dictionary.
+
+    Returns
+    -------
+        rev: str
+            Translated sequence
     """
     if seq == "":
         return ""
