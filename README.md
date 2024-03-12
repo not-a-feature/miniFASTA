@@ -2,6 +2,7 @@
 
 A simple FASTA read and write toolbox for small to medium size projects.
 
+This module is now part of the bfx suite. See https://py-bfx.readthedocs.io for more information.
 
 [![DOI](https://zenodo.org/badge/440126588.svg)](https://zenodo.org/badge/latestdoi/440126588)
 ![Test Badge](https://github.com/not-a-feature/miniFASTA/actions/workflows/tests.yml/badge.svg)
