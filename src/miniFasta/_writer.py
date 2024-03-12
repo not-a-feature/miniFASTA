@@ -22,6 +22,13 @@ def write(fasta_pairs, file_path: str, mode="w") -> None:
     """
     Writes a list of fasta_objects or a single one to a file.
     Takes fasta_objects as input.
+
+    Parameters
+    ----------
+        fasta_pairs: List[fasta_object] or fasta_object
+            List or single fasta_object to write.
+        file_path: str
+            String or FilePath to file.
     """
 
     if not isinstance(fasta_pairs, list):

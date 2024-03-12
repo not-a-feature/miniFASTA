@@ -31,13 +31,18 @@ def read(
     Zip, tar, gz, tar.gz files are supported.
     Attention: Encoding characters (backslash) will work under certain conditions.
 
-    Input:
-        file_path: str, path to folder / file.
-        upper: bool, cast sequences to upper-case letters.
-        seq: bool, return only the sequences.
+    Parameters
+    ----------
+        file_path: str
+            Path to folder / file.
+        upper: bool, default: True
+            Cast sequences to upper-case letters.
+        seq: bool, default: False
+            Return only the sequences.
 
     Returns:
-        fasta_objects: Iterator of fasta_object or Iterator of strings.
+        fasta_objects: Iterator
+            Iterator of fasta_object or Iterator of strings.
     """
 
     if not path.isfile(file_path):
