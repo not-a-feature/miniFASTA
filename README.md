@@ -186,7 +186,7 @@ mf.reverse_comp("TC", d) # Will return ZY
 ```
 
 ## License
-Copyright (C) 2024 by Jules Kreuer - @not_a_feature
+Copyright (C) 2025 by Jules Kreuer - @not_a_feature
 
 This piece of software is published unter the GNU General Public License v3.0
 TLDR:

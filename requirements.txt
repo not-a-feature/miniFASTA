@@ -1,5 +1,2 @@
-os
-typing
-zipfile
-gzip
-tarfile
+# No external dependencies required
+# All used modules are part of Python standard library
