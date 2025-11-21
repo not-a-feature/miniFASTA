@@ -124,7 +124,7 @@ def read(
             head = ""
             body: List[str] = []
             new_object = True
-            
+
             # Cache method references to avoid repeated lookups
             body_append = body.append
 
@@ -144,7 +144,7 @@ def read(
                         sequence = "".join(body)
                         if upper:
                             sequence = sequence.upper()
-                        
+
                         if seq:
                             yield sequence
                         else:
@@ -167,7 +167,7 @@ def read(
                 sequence = "".join(body)
                 if upper:
                     sequence = sequence.upper()
-                
+
                 if seq:
                     yield sequence
                 else:
