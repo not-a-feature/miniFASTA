@@ -13,7 +13,7 @@ from zipfile import ZipFile
 import gzip
 import tarfile
 from pathlib import Path
-from typing import Iterator, Union, List, IO, Any
+from typing import Iterator, Union, List, IO, Any, cast
 
 
 def _maybe_byte_to_str(maybe_byte: Union[bytes, str]) -> str:
@@ -61,8 +61,8 @@ def _get_file_handlers(file_path: Path) -> List[IO[Any]]:
     # .tar file
     elif file_suffix == ".tar":
         tar_handler = tarfile.open(file_path, "r")
-        for inner_file in tar_handler.getmembers():
-            extracted = tar_handler.extractfile(inner_file)
+        for member in tar_handler.getmembers():
+            extracted = tar_handler.extractfile(member)
             if extracted is not None:
                 handlers.append(extracted)
 
@@ -71,12 +71,12 @@ def _get_file_handlers(file_path: Path) -> List[IO[Any]]:
         # Check if it's a .tar.gz file
         if file_path.stem.endswith(".tar"):
             tar_handler = tarfile.open(file_path, "r:gz")
-            for inner_file in tar_handler.getmembers():
-                extracted = tar_handler.extractfile(inner_file)
+            for member in tar_handler.getmembers():
+                extracted = tar_handler.extractfile(member)
                 if extracted is not None:
                     handlers.append(extracted)
         else:
-            handlers.append(gzip.open(file_path, "rb"))
+            handlers.append(cast(IO[Any], gzip.open(file_path, "rb")))
 
     # Regular uncompressed file
     else:
